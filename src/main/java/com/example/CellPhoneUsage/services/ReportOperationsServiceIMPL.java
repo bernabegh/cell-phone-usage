@@ -26,7 +26,7 @@ public class ReportOperationsServiceIMPL implements IReportOperationsService {
 
     @Override
     public double getTotalData(List<CellPhoneUsageByMonth> cellPhoneUsageByMonthList) {
-        int totalData= 0;
+        double totalData= 0;
         for(CellPhoneUsageByMonth cellPhoneUsageByMonth:cellPhoneUsageByMonthList){
             totalData+= cellPhoneUsageByMonth.getTotalData();
         }
