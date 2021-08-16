@@ -108,7 +108,7 @@ public class ReportOperationsServiceIMPL implements IReportOperationsService {
     }
 
     private double getDataByEmployeeIdAndMonth(long employeeId, int month, List<CellPhoneUsageByMonth> cellPhoneUsageByMonthList){
-        int data = 0;
+        double data = 0;
         for(CellPhoneUsageByMonth cellPhoneUsageByMonth:cellPhoneUsageByMonthList){
             if( cellPhoneUsageByMonth.getEmplyeeId()==employeeId && getMonth(cellPhoneUsageByMonth.getDate())==month ){
                 data+= cellPhoneUsageByMonth.getTotalData();
