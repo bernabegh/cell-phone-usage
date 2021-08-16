@@ -2,6 +2,7 @@ package com.example.CellPhoneUsage.controllers;
 
 import com.example.CellPhoneUsage.models.CellPhone;
 import com.example.CellPhoneUsage.models.CellPhoneUsageByMonth;
+import com.example.CellPhoneUsage.models.Detail;
 import com.example.CellPhoneUsage.services.IReportOperationsService;
 import com.example.CellPhoneUsage.services.IUtilService;
 import freemarker.template.Template;
@@ -34,16 +35,20 @@ public class ReportController {
     public @ResponseBody
     ResponseEntity<String> main() throws Exception {
 
+        Map<String, Object> reportData = new HashMap<>();
+
+        // get the data from CSV files
         List<CellPhone> cellPhones = utilService.getCellPhones();
         List<CellPhoneUsageByMonth> cellPhoneUsageByMonthList = utilService.getCellPhoneUsageByMonth();
+        List<Detail> detailList =reportOperationsService.getDetail(cellPhones,cellPhoneUsageByMonthList);
 
-        Map<String, Object> reportData = new HashMap<>();
         reportData.put("runDate",reportOperationsService.getReportRunDate());
         reportData.put("numberOfPhones",cellPhones.size());
         reportData.put("totalMinutes",reportOperationsService.getTotalMinutes(cellPhoneUsageByMonthList));
         reportData.put("totalData",reportOperationsService.getTotalData(cellPhoneUsageByMonthList));
         reportData.put("averageMinutes",reportOperationsService.getAverageMinutes(cellPhoneUsageByMonthList));
         reportData.put("averageData",reportOperationsService.getAverageData(cellPhoneUsageByMonthList));
+        reportData.put("details",detailList);
 
         Writer out = new StringWriter();
         Template template = freeMarkerConfigurer.getConfiguration().getTemplate("report.ftl");
